@@ -163,11 +163,13 @@ DECLARE_TRACEPOINT(
  *
  * \param[in] publisher_handle not used, but kept for API/ABI stability
  * \param[in] message pointer to the message being published
+ * \param[in] timestamp of message header
  */
 DECLARE_TRACEPOINT(
   rclcpp_publish,
   const void * publisher_handle,
-  const void * message)
+  const void * message,
+  const uint64_t message_timestamp)
 
 /// `rcl_publish`
 /**
@@ -481,6 +483,30 @@ DECLARE_TRACEPOINT(
 DECLARE_TRACEPOINT(
   rclcpp_executor_execute,
   const void * handle)
+
+DECLARE_TRACEPOINT(
+  message_construct,
+  const void * original_message,
+  const void * constructed_message)
+
+DECLARE_TRACEPOINT(
+  rclcpp_intra_publish,
+  const void * publisher_handle,
+  const void * message,
+  const uint64_t message_timestamp)
+
+DECLARE_TRACEPOINT(
+  dispatch_subscription_callback,
+  const void * message,
+  const void * callback,
+  const uint64_t source_timestamp,
+  const uint64_t message_timestamp)
+
+DECLARE_TRACEPOINT(
+  dispatch_intra_process_subscription_callback,
+  const void * message,
+  const void * callback,
+  const uint64_t message_timestamp)
 
 #ifdef __cplusplus
 }
