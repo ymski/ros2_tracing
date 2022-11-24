@@ -18,8 +18,8 @@ import platform
 import unittest
 from unittest import mock
 
-from launch import LaunchDescription
-from launch import LaunchService
+from launch.launch_description import LaunchDescription
+from launch.launch_service import LaunchService
 
 from tracetools_launch.actions.ld_preload import LdPreload
 

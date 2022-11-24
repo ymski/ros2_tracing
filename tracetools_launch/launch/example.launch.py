@@ -14,7 +14,7 @@
 
 """Example launch file for the Trace action."""
 
-from launch import LaunchDescription
+from launch.launch_description import LaunchDescription
 from launch_ros.actions import Node
 from tracetools_launch.action import Trace
 

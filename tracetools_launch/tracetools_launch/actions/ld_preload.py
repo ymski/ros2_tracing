@@ -20,10 +20,10 @@ import subprocess
 from typing import List
 from typing import Optional
 
-from launch import logging
 from launch.action import Action
 from launch.actions import AppendEnvironmentVariable
 from launch.launch_context import LaunchContext
+from launch.logging import get_logger
 
 
 class LdPreload(Action):
@@ -31,7 +31,7 @@ class LdPreload(Action):
 
     ENV_VAR_LD_PRELOAD = 'LD_PRELOAD'
 
-    __logger = logging.get_logger(__name__)
+    __logger = get_logger(__name__)
 
     def __init__(
         self,
