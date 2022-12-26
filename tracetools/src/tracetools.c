@@ -362,6 +362,42 @@ void TRACEPOINT(
     handle);
 }
 
+///
+
+void TRACEPOINT(
+  rclcpp_intra_publish,
+  const void * publisher_handle,
+  const void * message
+  )
+{
+  CONDITIONAL_TP(
+    rclcpp_intra_publish,
+    publisher_handle,
+    message);
+}
+
+void TRACEPOINT(
+  dispatch_subscription_callback,
+  const void * message,
+  const void * callback)
+{
+  CONDITIONAL_TP(
+    dispatch_subscription_callback,
+    message,
+    callback);
+}
+
+void TRACEPOINT(
+  dispatch_intra_process_subscription_callback,
+  const void * message,
+  const void * callback)
+{
+  CONDITIONAL_TP(
+    dispatch_intra_process_subscription_callback,
+    message,
+    callback);
+}
+
 #ifndef _WIN32
 # pragma GCC diagnostic pop
 #else

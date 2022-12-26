@@ -482,6 +482,23 @@ DECLARE_TRACEPOINT(
   rclcpp_executor_execute,
   const void * handle)
 
+
+DECLARE_TRACEPOINT(
+  rclcpp_intra_publish,
+  const void * publisher_handle,
+  const void * message)
+
+DECLARE_TRACEPOINT(
+  dispatch_subscription_callback,
+  const void * message,
+  const void * callback)
+
+DECLARE_TRACEPOINT(
+  dispatch_intra_process_subscription_callback,
+  const void * message,
+  const void * callback)
+
+
 #ifdef __cplusplus
 }
 #endif
