@@ -42,3 +42,7 @@ rcl_lifecycle_transition = 'ros2:rcl_lifecycle_transition'
 rclcpp_executor_get_next_ready = 'ros2:rclcpp_executor_get_next_ready'
 rclcpp_executor_wait_for_work = 'ros2:rclcpp_executor_wait_for_work'
 rclcpp_executor_execute = 'ros2:rclcpp_executor_execute'
+
+rclcpp_intra_publish = 'ros2:rclcpp_intra_publish'
+dispatch_subscription_callback = 'ros2:dispatch_subscription_callback'
+dispatch_intra_process_subscription_callback = 'ros2:dispatch_intra_process_subscription_callback'
