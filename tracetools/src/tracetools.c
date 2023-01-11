@@ -106,6 +106,17 @@ void TRACEPOINT(
 }
 
 void TRACEPOINT(
+  rclcpp_intra_publish,
+  const void * publisher_handle,
+  const void * message)
+{
+  CONDITIONAL_TP(
+    rclcpp_intra_publish,
+    publisher_handle,
+    message);
+}
+
+void TRACEPOINT(
   rcl_publish,
   const void * publisher_handle,
   const void * message)
@@ -362,40 +373,48 @@ void TRACEPOINT(
     handle);
 }
 
-///
-
 void TRACEPOINT(
-  rclcpp_intra_publish,
-  const void * publisher_handle,
-  const void * message
-  )
+  construct_ring_buffer,
+  const void * buffer,
+  const int64_t capacity)
 {
   CONDITIONAL_TP(
-    rclcpp_intra_publish,
-    publisher_handle,
-    message);
+    construct_ring_buffer,
+    buffer,
+    capacity);
 }
 
 void TRACEPOINT(
-  dispatch_subscription_callback,
-  const void * message,
-  const void * callback)
+  ring_buffer_enqueue,
+  const void * buffer,
+  const int64_t index,
+  const bool is_full)
 {
   CONDITIONAL_TP(
-    dispatch_subscription_callback,
-    message,
-    callback);
+    ring_buffer_enqueue,
+    buffer,
+    index,
+    is_full);
 }
 
 void TRACEPOINT(
-  dispatch_intra_process_subscription_callback,
-  const void * message,
-  const void * callback)
+  ring_buffer_dequeue,
+  const void * buffer,
+  const int64_t index)
 {
   CONDITIONAL_TP(
-    dispatch_intra_process_subscription_callback,
-    message,
-    callback);
+    ring_buffer_dequeue,
+    buffer,
+    index);
+}
+
+void TRACEPOINT(
+  ring_buffer_clear,
+  const void * buffer)
+{
+  CONDITIONAL_TP(
+    ring_buffer_clear,
+    buffer);
 }
 
 #ifndef _WIN32

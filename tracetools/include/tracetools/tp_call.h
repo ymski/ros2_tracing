@@ -109,6 +109,19 @@ TRACEPOINT_EVENT(
 
 TRACEPOINT_EVENT(
   TRACEPOINT_PROVIDER,
+  rclcpp_intra_publish,
+  TP_ARGS(
+    const void *, publisher_handle_arg,
+    const void *, message_arg
+  ),
+  TP_FIELDS(
+    ctf_integer_hex(const void *, publisher_handle, publisher_handle_arg)
+    ctf_integer_hex(const void *, message, message_arg)
+  )
+)
+
+TRACEPOINT_EVENT(
+  TRACEPOINT_PROVIDER,
   rcl_publish,
   TP_ARGS(
     const void *, publisher_handle_arg,
@@ -408,47 +421,57 @@ TRACEPOINT_EVENT(
   )
 )
 
-
 TRACEPOINT_EVENT(
   TRACEPOINT_PROVIDER,
-  rclcpp_intra_publish,
+  construct_ring_buffer,
   TP_ARGS(
-    const void *, publisher_handle_arg,
-    const void *, message_arg
+    const void *, buffer_arg,
+    const int64_t, capacity_arg
   ),
   TP_FIELDS(
-    ctf_integer_hex(const void *, publisher_handle, publisher_handle_arg)
-    ctf_integer_hex(const void *, message, message_arg)
+    ctf_integer_hex(const void *, buffer, buffer_arg)
+    ctf_integer(const int64_t, capacity, capacity_arg)
   )
 )
 
 TRACEPOINT_EVENT(
   TRACEPOINT_PROVIDER,
-  dispatch_subscription_callback,
+  ring_buffer_enqueue,
   TP_ARGS(
-    const void *, message_arg,
-    const void *, callback_arg
+    const void *, buffer_arg,
+    const int64_t, index_arg,
+    const bool, overwriting_occurred_arg
   ),
   TP_FIELDS(
-    ctf_integer_hex(const void *, message, message_arg)
-    ctf_integer_hex(const void *, callback, callback_arg)
+    ctf_integer_hex(const void *, buffer, buffer_arg)
+    ctf_integer(const int64_t, index, index_arg)
+    ctf_integer(const int, overwriting_occurred, overwriting_occurred_arg)
   )
 )
 
 TRACEPOINT_EVENT(
   TRACEPOINT_PROVIDER,
-  dispatch_intra_process_subscription_callback,
+  ring_buffer_dequeue,
   TP_ARGS(
-    const void *, message_arg,
-    const void *, callback_arg
+    const void *, buffer_arg,
+    const int64_t, index_arg
   ),
   TP_FIELDS(
-    ctf_integer_hex(const void *, message, message_arg)
-    ctf_integer_hex(const void *, callback, callback_arg)
+    ctf_integer_hex(const void *, buffer, buffer_arg)
+    ctf_integer(const int64_t, index, index_arg)
   )
 )
 
-
+TRACEPOINT_EVENT(
+  TRACEPOINT_PROVIDER,
+  ring_buffer_clear,
+  TP_ARGS(
+    const void *, buffer_arg
+  ),
+  TP_FIELDS(
+    ctf_integer_hex(const void *, buffer, buffer_arg)
+  )
+)
 
 #endif  // _TRACETOOLS__TP_CALL_H_
 
