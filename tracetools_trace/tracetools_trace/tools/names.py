@@ -92,9 +92,10 @@ DEFAULT_EVENTS_ROS = [
     tracepoints.rclcpp_executor_execute,
     
     tracepoints.rclcpp_intra_publish,
-    tracepoints.dispatch_subscription_callback,
-    tracepoints.dispatch_intra_process_subscription_callback
-
+    tracepoints.construct_ring_buffer,
+    tracepoints.ring_buffer_enqueue,
+    tracepoints.ring_buffer_dequeue,
+    tracepoints.ring_buffer_clear
 ]
 
 DEFAULT_EVENTS_UST = DEFAULT_EVENTS_ROS
