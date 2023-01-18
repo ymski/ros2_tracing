@@ -174,7 +174,7 @@ DECLARE_TRACEPOINT(
  * Message publication.
  * Notes the pointer to the message being published in intra process at the `rclcpp` level.
  *
- * \param[in] publisher_handle pointer to the publisher's `rcl_publisher_t` handle
+ * \param[in] publisher_handle publisher_handle not used, but kept for API/ABI stability
  * \param[in] message pointer to the message being published
  */
 DECLARE_TRACEPOINT(
