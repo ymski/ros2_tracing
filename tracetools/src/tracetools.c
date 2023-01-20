@@ -388,13 +388,13 @@ void TRACEPOINT(
   ring_buffer_enqueue,
   const void * buffer,
   const int64_t index,
-  const bool is_full)
+  const bool overwriting_occurred)
 {
   CONDITIONAL_TP(
     ring_buffer_enqueue,
     buffer,
     index,
-    is_full);
+    overwriting_occurred);
 }
 
 void TRACEPOINT(
