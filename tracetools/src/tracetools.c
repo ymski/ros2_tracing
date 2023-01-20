@@ -106,6 +106,17 @@ void TRACEPOINT(
 }
 
 void TRACEPOINT(
+  rclcpp_intra_publish,
+  const void * publisher_handle,
+  const void * message)
+{
+  CONDITIONAL_TP(
+    rclcpp_intra_publish,
+    publisher_handle,
+    message);
+}
+
+void TRACEPOINT(
   rcl_publish,
   const void * publisher_handle,
   const void * message)
@@ -360,6 +371,50 @@ void TRACEPOINT(
   CONDITIONAL_TP(
     rclcpp_executor_execute,
     handle);
+}
+
+void TRACEPOINT(
+  construct_ring_buffer,
+  const void * buffer,
+  const int64_t capacity)
+{
+  CONDITIONAL_TP(
+    construct_ring_buffer,
+    buffer,
+    capacity);
+}
+
+void TRACEPOINT(
+  ring_buffer_enqueue,
+  const void * buffer,
+  const int64_t index,
+  const bool overwriting_occurred)
+{
+  CONDITIONAL_TP(
+    ring_buffer_enqueue,
+    buffer,
+    index,
+    overwriting_occurred);
+}
+
+void TRACEPOINT(
+  ring_buffer_dequeue,
+  const void * buffer,
+  const int64_t index)
+{
+  CONDITIONAL_TP(
+    ring_buffer_dequeue,
+    buffer,
+    index);
+}
+
+void TRACEPOINT(
+  ring_buffer_clear,
+  const void * buffer)
+{
+  CONDITIONAL_TP(
+    ring_buffer_clear,
+    buffer);
 }
 
 #ifndef _WIN32
