@@ -189,6 +189,19 @@ DECLARE_TRACEPOINT(
   const void * publisher_handle,
   const void * message)
 
+/// `rclcpp_intra_publish`
+/**
+ * Message publication.
+ * Notes the pointer to the message being published in intra process at the `rclcpp` level.
+ *
+ * \param[in] publisher_handle publisher_handle not used, but kept for API/ABI stability
+ * \param[in] message pointer to the message being published
+ */
+DECLARE_TRACEPOINT(
+  rclcpp_intra_publish,
+  const void * publisher_handle,
+  const void * message)
+
 /// `rcl_publish`
 /**
  * Message publication.
@@ -501,6 +514,51 @@ DECLARE_TRACEPOINT(
 DECLARE_TRACEPOINT(
   rclcpp_executor_execute,
   const void * handle)
+
+/// `construct_ring_buffer`
+/**
+ * Ring buffer construction.
+ *
+ * \param[in] buffer buffer pointer to the buffer
+ * \param[in] capacity buffer size
+ */
+DECLARE_TRACEPOINT(
+  construct_ring_buffer,
+  const void * buffer,
+  const int64_t capacity)
+
+/// `ring_buffer_enqueue`
+/**
+ *
+ * \param[in] buffer pointer to the buffer
+ * \param[in] index index of enqueued data
+ * \param[in] overwriting_occurred
+ */
+DECLARE_TRACEPOINT(
+  ring_buffer_enqueue,
+  const void * buffer,
+  const int64_t index,
+  const bool overwriting_occurred)
+
+/// `ring_buffer_dequeue`
+/**
+ *
+ * \param[in] buffer pointer to the buffer
+ * \param[in] index index of dequeued data
+ */
+DECLARE_TRACEPOINT(
+  ring_buffer_dequeue,
+  const void * buffer,
+  const int64_t index)
+
+/// `ring_buffer_clear`
+/**
+ *
+ * \param[in] buffer pointer to the buffer
+ */
+DECLARE_TRACEPOINT(
+  ring_buffer_clear,
+  const void * buffer)
 
 #ifdef __cplusplus
 }
