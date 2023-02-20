@@ -423,6 +423,32 @@ TRACEPOINT_EVENT(
 
 TRACEPOINT_EVENT(
   TRACEPOINT_PROVIDER,
+  IPB_to_subscription,
+  TP_ARGS(
+    const void *, IPB_arg,
+    const void *, subscription_arg
+  ),
+  TP_FIELDS(
+    ctf_integer_hex(const void *, IPB, IPB_arg)
+    ctf_integer_hex(const void *, subscription, subscription_arg)
+  )
+)
+
+TRACEPOINT_EVENT(
+  TRACEPOINT_PROVIDER,
+  buf_to_typedIPB,
+  TP_ARGS(
+    const void *, buffer_arg,
+    const void *, IPB_arg
+  ),
+  TP_FIELDS(
+    ctf_integer_hex(const void *, buffer, buffer_arg)
+    ctf_integer_hex(const void *, IPB, IPB_arg)
+  )
+)
+
+TRACEPOINT_EVENT(
+  TRACEPOINT_PROVIDER,
   construct_ring_buffer,
   TP_ARGS(
     const void *, buffer_arg,

@@ -374,6 +374,28 @@ void TRACEPOINT(
 }
 
 void TRACEPOINT(
+  IPB_to_subscription,
+  const void * IPB,
+  const void * subscription)
+{
+  CONDITIONAL_TP(
+    IPB_to_subscription,
+    IPB,
+    subscription);
+}
+
+void TRACEPOINT(
+  buf_to_typedIPB,
+  const void * buffer,
+  const void * IPB)
+{
+  CONDITIONAL_TP(
+    buf_to_typedIPB,
+    buffer,
+    IPB);
+}
+
+void TRACEPOINT(
   construct_ring_buffer,
   const void * buffer,
   const int64_t capacity)

@@ -495,6 +495,19 @@ DECLARE_TRACEPOINT(
   rclcpp_executor_execute,
   const void * handle)
 
+/// `rclcpp_buffer_init`
+/**
+ */
+DECLARE_TRACEPOINT(
+  IPB_to_subscription,
+  const void * IPB,
+  const void * subscription)
+
+DECLARE_TRACEPOINT(
+  buf_to_typedIPB,
+  const void * buffer,
+  const void * IPB)
+
 /// `construct_ring_buffer`
 /**
  * Ring buffer construction.
