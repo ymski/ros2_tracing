@@ -495,22 +495,34 @@ DECLARE_TRACEPOINT(
   rclcpp_executor_execute,
   const void * handle)
 
-/// `rclcpp_buffer_init`
+/// `IPB_to_subscription`
 /**
+ * Note down the IntraProcessBuffer and the subscription that owns the IntraProcessBuffer.
+ * 
+ * \param[in] IPB IntraProcssBuffer address
+ * \param[in] subscription subscription address
  */
 DECLARE_TRACEPOINT(
   IPB_to_subscription,
   const void * IPB,
   const void * subscription)
 
+/// `buffer_to_typedIPB`
+/**
+ * Note down the buffer and the IntraProcessBuffer that owns the buffer.
+ * 
+ * \param[in] buffer buffer address
+ * \param[in] IPB IntraProcssBuffer address
+ */
 DECLARE_TRACEPOINT(
-  buf_to_typedIPB,
+  buffer_to_typedIPB,
   const void * buffer,
   const void * IPB)
 
 /// `construct_ring_buffer`
 /**
  * Ring buffer construction.
+ * Notes the buffer address and the capacity of beffer.
  *
  * \param[in] buffer buffer pointer to the buffer
  * \param[in] capacity buffer size
@@ -522,10 +534,11 @@ DECLARE_TRACEPOINT(
 
 /// `ring_buffer_enqueue`
 /**
- *
+ * Notes buffer address, the index to write to, and the occurrence of the lost.
+ * 
  * \param[in] buffer pointer to the buffer
- * \param[in] index index of enqueued data
- * \param[in] overwriting_occurred
+ * \param[in] index the index to write to
+ * \param[in] overwriting_occurred occurrence of the lost
  */
 DECLARE_TRACEPOINT(
   ring_buffer_enqueue,
@@ -535,9 +548,10 @@ DECLARE_TRACEPOINT(
 
 /// `ring_buffer_dequeue`
 /**
+ * Notes buffer address, the index to read to.
  *
  * \param[in] buffer pointer to the buffer
- * \param[in] index index of dequeued data
+ * \param[in] index the index to read to
  */
 DECLARE_TRACEPOINT(
   ring_buffer_dequeue,
@@ -546,7 +560,8 @@ DECLARE_TRACEPOINT(
 
 /// `ring_buffer_clear`
 /**
- *
+ * Notes the address of the cleared buffer.
+ * 
  * \param[in] buffer pointer to the buffer
  */
 DECLARE_TRACEPOINT(

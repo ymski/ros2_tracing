@@ -385,12 +385,12 @@ void TRACEPOINT(
 }
 
 void TRACEPOINT(
-  buf_to_typedIPB,
+  buffer_to_typedIPB,
   const void * buffer,
   const void * IPB)
 {
   CONDITIONAL_TP(
-    buf_to_typedIPB,
+    buffer_to_typedIPB,
     buffer,
     IPB);
 }
