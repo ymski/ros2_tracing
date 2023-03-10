@@ -436,7 +436,7 @@ TRACEPOINT_EVENT(
 
 TRACEPOINT_EVENT(
   TRACEPOINT_PROVIDER,
-  buf_to_typedIPB,
+  buffer_to_typedIPB,
   TP_ARGS(
     const void *, buffer_arg,
     const void *, IPB_arg

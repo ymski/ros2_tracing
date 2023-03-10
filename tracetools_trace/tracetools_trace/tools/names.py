@@ -92,7 +92,7 @@ DEFAULT_EVENTS_ROS = [
     tracepoints.rclcpp_executor_wait_for_work,
     tracepoints.rclcpp_executor_execute,
     tracepoints.IPB_to_subscription,
-    tracepoints.buf_to_typedIPB,
+    tracepoints.buffer_to_typedIPB,
     tracepoints.construct_ring_buffer,
     tracepoints.ring_buffer_enqueue,
     tracepoints.ring_buffer_dequeue,
