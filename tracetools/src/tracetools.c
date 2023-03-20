@@ -409,25 +409,29 @@ void TRACEPOINT(
 void TRACEPOINT(
   ring_buffer_enqueue,
   const void * buffer,
-  const int64_t index,
+  const int64_t message,
+  const int64_t accumulated_data,
   const bool overwriting_occurred)
 {
   CONDITIONAL_TP(
     ring_buffer_enqueue,
     buffer,
     index,
+    accumulated_data,
     overwriting_occurred);
 }
 
 void TRACEPOINT(
   ring_buffer_dequeue,
   const void * buffer,
-  const int64_t index)
+  const int64_t index,
+  const int64_t accumulated_data)
 {
   CONDITIONAL_TP(
     ring_buffer_dequeue,
     buffer,
-    index);
+    index,
+    accumulated_data);
 }
 
 void TRACEPOINT(

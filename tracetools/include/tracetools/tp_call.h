@@ -466,11 +466,13 @@ TRACEPOINT_EVENT(
   TP_ARGS(
     const void *, buffer_arg,
     const int64_t, index_arg,
+    const int64_t, accumulated_data_arg,
     const bool, overwriting_occurred_arg
   ),
   TP_FIELDS(
     ctf_integer_hex(const void *, buffer, buffer_arg)
-    ctf_integer(const int64_t, index, index_arg)
+    ctf_integer(const int64_t *, index, index_arg)
+    ctf_integer(const int64_t, accumulated_data, accumulated_data_arg)
     ctf_integer(const int, overwriting_occurred, overwriting_occurred_arg ? 1 : 0)
   )
 )
@@ -480,11 +482,13 @@ TRACEPOINT_EVENT(
   ring_buffer_dequeue,
   TP_ARGS(
     const void *, buffer_arg,
-    const int64_t, index_arg
+    const int64_t, index_arg,
+    const int64_t, accumulated_data_arg
   ),
   TP_FIELDS(
     ctf_integer_hex(const void *, buffer, buffer_arg)
     ctf_integer(const int64_t, index, index_arg)
+    ctf_integer(const int64_t, accumulated_data, accumulated_data_arg)
   )
 )
 
