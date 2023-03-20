@@ -558,12 +558,14 @@ DECLARE_TRACEPOINT(
  * 
  * \param[in] buffer pointer to the buffer
  * \param[in] index the index to write to
+ * \param[in] accumulated_data the number of acccumulated data
  * \param[in] overwriting_occurred occurrence of the lost
  */
 DECLARE_TRACEPOINT(
   ring_buffer_enqueue,
   const void * buffer,
   const int64_t index,
+  const int64_t accumulated_data,
   const bool overwriting_occurred)
 
 /// `ring_buffer_dequeue`
@@ -572,11 +574,13 @@ DECLARE_TRACEPOINT(
  *
  * \param[in] buffer pointer to the buffer
  * \param[in] index the index to read to
+ * \param[in] accumulated_data the number of acccumulated data
  */
 DECLARE_TRACEPOINT(
   ring_buffer_dequeue,
   const void * buffer,
-  const int64_t index)
+  const int64_t index,
+  const int64_t accumulated_data)
 
 /// `ring_buffer_clear`
 /**
