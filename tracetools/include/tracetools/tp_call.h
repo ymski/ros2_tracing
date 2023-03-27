@@ -423,27 +423,27 @@ TRACEPOINT_EVENT(
 
 TRACEPOINT_EVENT(
   TRACEPOINT_PROVIDER,
-  IPB_to_subscription,
+  ipb_to_subscription,
   TP_ARGS(
-    const void *, IPB_arg,
+    const void *, ipb_arg,
     const void *, subscription_arg
   ),
   TP_FIELDS(
-    ctf_integer_hex(const void *, IPB, IPB_arg)
+    ctf_integer_hex(const void *, ipb, ipb_arg)
     ctf_integer_hex(const void *, subscription, subscription_arg)
   )
 )
 
 TRACEPOINT_EVENT(
   TRACEPOINT_PROVIDER,
-  buffer_to_typedIPB,
+  buffer_to_ipb,
   TP_ARGS(
     const void *, buffer_arg,
-    const void *, IPB_arg
+    const void *, ipb_arg
   ),
   TP_FIELDS(
     ctf_integer_hex(const void *, buffer, buffer_arg)
-    ctf_integer_hex(const void *, IPB, IPB_arg)
+    ctf_integer_hex(const void *, ipb, ipb_arg)
   )
 )
 
@@ -452,11 +452,11 @@ TRACEPOINT_EVENT(
   construct_ring_buffer,
   TP_ARGS(
     const void *, buffer_arg,
-    const int64_t, capacity_arg
+    const uint64_t, capacity_arg
   ),
   TP_FIELDS(
     ctf_integer_hex(const void *, buffer, buffer_arg)
-    ctf_integer(const int64_t, capacity, capacity_arg)
+    ctf_integer(const uint64_t, capacity, capacity_arg)
   )
 )
 
@@ -465,15 +465,15 @@ TRACEPOINT_EVENT(
   ring_buffer_enqueue,
   TP_ARGS(
     const void *, buffer_arg,
-    const int64_t, index_arg,
-    const int64_t, accumulated_data_arg,
-    const bool, overwriting_occurred_arg
+    const uint64_t, index_arg,
+    const uint64_t, size_arg,
+    const bool, overwritten_arg
   ),
   TP_FIELDS(
     ctf_integer_hex(const void *, buffer, buffer_arg)
-    ctf_integer(const int64_t *, index, index_arg)
-    ctf_integer(const int64_t, accumulated_data, accumulated_data_arg)
-    ctf_integer(const int, overwriting_occurred, overwriting_occurred_arg ? 1 : 0)
+    ctf_integer(const uint64_t *, index, index_arg)
+    ctf_integer(const uint64_t, size, size_arg)
+	    ctf_integer(const int, overwritten, overwritten_arg ? 1 : 0)
   )
 )
 
@@ -482,13 +482,13 @@ TRACEPOINT_EVENT(
   ring_buffer_dequeue,
   TP_ARGS(
     const void *, buffer_arg,
-    const int64_t, index_arg,
-    const int64_t, accumulated_data_arg
+    const uint64_t, index_arg,
+    const uint64_t, size_arg
   ),
   TP_FIELDS(
     ctf_integer_hex(const void *, buffer, buffer_arg)
-    ctf_integer(const int64_t, index, index_arg)
-    ctf_integer(const int64_t, accumulated_data, accumulated_data_arg)
+    ctf_integer(const uint64_t, index, index_arg)
+    ctf_integer(const uint64_t, size, size_arg)
   )
 )
 

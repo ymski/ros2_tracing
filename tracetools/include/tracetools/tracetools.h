@@ -191,10 +191,10 @@ DECLARE_TRACEPOINT(
 
 /// `rclcpp_intra_publish`
 /**
- * Message publication.
+ * Intra-process message publication.
  * Notes the pointer to the message being published in intra process at the `rclcpp` level.
  *
- * \param[in] publisher_handle publisher_handle not used, but kept for API/ABI stability
+ * \param[in] publisher_handle pointer to the publisher's `rcl_publisher_t` handle
  * \param[in] message pointer to the message being published
  */
 DECLARE_TRACEPOINT(
@@ -515,42 +515,44 @@ DECLARE_TRACEPOINT(
   rclcpp_executor_execute,
   const void * handle)
 
-/// `IPB_to_subscription`
+/// `ipb_to_subscription`
 /**
- * Note down the IntraProcessBuffer and the subscription that owns the IntraProcessBuffer.
- * 
- * \param[in] IPB IntraProcssBuffer address
- * \param[in] subscription subscription address
+ * Subscription intra-process buffer initialization.
+ * Notes the `IntraProcessBuffer` and the `SubscriptionIntraProcess` that owns it.
+ *
+ * \param[in] ipb pointer to the `IntraProcessBuffer`
+ * \param[in] subscription pointer to the `SubscriptionIntraProcess`
  */
 DECLARE_TRACEPOINT(
-  IPB_to_subscription,
-  const void * IPB,
+  ipb_to_subscription,
+  const void * ipb,
   const void * subscription)
 
-/// `buffer_to_typedIPB`
+/// `buffer_to_ipb`
 /**
- * Note down the buffer and the IntraProcessBuffer that owns the buffer.
- * 
- * \param[in] buffer buffer address
- * \param[in] IPB IntraProcssBuffer address
+ * Intra-process buffer initialization.
+ * Notes the `BufferImplementationBase` and the `IntraProcessBuffer` that owns it.
+ *
+ * \param[in] buffer the pointer to the `BufferImplementationBase`
+ * \param[in] ipb to pointer to the `IntraProcessBuffer`
  */
 DECLARE_TRACEPOINT(
-  buffer_to_typedIPB,
+  buffer_to_ipb,
   const void * buffer,
-  const void * IPB)
+  const void * ipb)
 
 /// `construct_ring_buffer`
 /**
  * Ring buffer construction.
- * Notes the buffer address and the capacity of beffer.
+ * Notes the buffer address and its capacity.
  *
- * \param[in] buffer buffer pointer to the buffer
+ * \param[in] buffer pointer to the buffer
  * \param[in] capacity buffer size
  */
 DECLARE_TRACEPOINT(
   construct_ring_buffer,
   const void * buffer,
-  const int64_t capacity)
+  const uint64_t capacity)
 
 /// `ring_buffer_enqueue`
 /**
@@ -558,34 +560,36 @@ DECLARE_TRACEPOINT(
  * 
  * \param[in] buffer pointer to the buffer
  * \param[in] index the index to write to
- * \param[in] accumulated_data the number of acccumulated data
- * \param[in] overwriting_occurred occurrence of the lost
+ * \param[in] size the size of the buffer after this operation
+ * \param[in] overwritten occurrence of the lost
  */
 DECLARE_TRACEPOINT(
   ring_buffer_enqueue,
   const void * buffer,
-  const int64_t index,
-  const int64_t accumulated_data,
-  const bool overwriting_occurred)
+  const uint64_t index,
+  const uint64_t size,
+  const bool overwritten)
 
 /// `ring_buffer_dequeue`
 /**
- * Notes buffer address, the index to read to.
- *
- * \param[in] buffer pointer to the buffer
- * \param[in] index the index to read to
- * \param[in] accumulated_data the number of acccumulated data
- */
+  * Ring buffer dequeue.
+  * Notes buffer address, the index to read from, and the size of the buffer after this operation.
+  *
+  * \param[in] buffer pointer to the buffer
+  * \param[in] index the index to read from
+  * \param[in] size the size of the buffer after this operation
+  */
 DECLARE_TRACEPOINT(
   ring_buffer_dequeue,
   const void * buffer,
-  const int64_t index,
-  const int64_t accumulated_data)
+  const uint64_t index,
+  const uint64_t size)
 
 /// `ring_buffer_clear`
 /**
+ * Ring buffer clear.
  * Notes the address of the cleared buffer.
- * 
+ *
  * \param[in] buffer pointer to the buffer
  */
 DECLARE_TRACEPOINT(
