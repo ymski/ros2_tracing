@@ -557,7 +557,7 @@ DECLARE_TRACEPOINT(
 /// `ring_buffer_enqueue`
 /**
  * Notes buffer address, the index to write to, and the occurrence of the lost.
- * 
+ *
  * \param[in] buffer pointer to the buffer
  * \param[in] index the index to write to
  * \param[in] size the size of the buffer after this operation
