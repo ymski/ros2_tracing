@@ -347,7 +347,7 @@ Nodes are instanciated, usually as a `shared_ptr` through `std::make_shared<Node
 After all the nodes have been added, `rclcpp::Executor::spin()` is called (there are other spinning varations, but this is the main one).
 `rclcpp::executors::SingleThreadedExecutor::spin()` simply loops forever until the process' context isn't valid anymore.
 It fetches the next `rclcpp::AnyExecutable` (e.g., subscription, timer, service, client), possibly waiting a bit, and calls `rclcpp::Executor::execute_any_executable()` with it.
-This then calls the relevant `execute*()` method (e.g., [`execute_timer()`](#timer-callbacks), [`execute_subscription()`](#subscription-callbacks), `execute_service()`, `execute_client()`).
+This then calls the relevant `execute*()` method (e.g., [`execute_timer()`](#timer-callbacks), [`execute_subscription()`](#subscription-callbacks), `execute_service()`, `execute_client()`, `execute_any_executable()`).
 
 **Important information**:
 * Timestamps of executor phases
@@ -426,6 +426,38 @@ sequenceDiagram
     Executor->>Subscription: return_message(msg)
 ```
 
+#### Intra process callback
+
+Intra-process subscriptions are handled in the rclcpp layer. Callback functions are wrapped by an `rclcpp::Waitable` object, which is registered when creating the `rclcpp::Subscription` object.
+
+In `rclcpp::Executor::get_next_ready_executable(any_exec)`, the executor calls `rclcpp::Waitable::take_data()`. Then, it calls `rclcpp::IntraProcessBuffer::consume_*()` (e.g., consume_share(), consume_unique()), which in turn calls `rclcpp::BufferImplementationBase::dequeue()`, which gets the message from the intra-process buffer. If that is successful, the `rclcpp::Executor` then passes that on to the SubscriptionIntraProcess through `rclcpp::SubscriptionIntraProcess::execute()`. This checks message is shared_ptr or unique_ptr, and then it calls `rclcpp::SubscriptionIntraProcess::dispatch_intra_process()`, then calls the `std::function`.
+
+Finally, reset any_exec.callback_group.
+
+```mermaid
+sequenceDiagram
+
+    participant Executor
+    participant SubscriptionIntraProcess
+    participant IntraProcessBuffer
+    participant RingBufferImplementation
+    participant AnySubscriptionCallback
+    participant tracetools
+
+    Note over Executor: get_next_ready_executable(any_exec)
+    Executor ->> SubscriptionIntraProcess: take_data()
+    SubscriptionIntraProcess ->> IntraProcessBuffer: consume_*()
+    IntraProcessBuffer ->> RingBufferImplementation: dequeue()
+    RingBufferImplementation -->> tracetools: TP(ring_buffer_dequeue, buffer*, index)
+    Note over Executor: execute_any_executable(any_exec)
+    Executor ->> SubscriptionIntraProcess: execute(any_exec.data)
+    SubscriptionIntraProcess ->> AnySubscriptionCallback: dispatch_intra_process()
+    AnySubscriptionCallback -->> tracetools: TP(callback_start, callback, is_intra_process)
+    Note over AnySubscriptionCallback: std::function(...)
+    AnySubscriptionCallback -->> tracetools: TP(callback_end, callback)
+    Note over Executor: reset any_exec.callback_group
+```
+
 #### Message publishing
 
 To publish a message, a message object is first allocated (or loaned) and then populated at the user level (e.g., in a node).
@@ -460,6 +492,34 @@ sequenceDiagram
     rmw-->>tracetools: TP(rmw_publish, msg *)
     Note over rmw: calls middleware
     Note over node: keeps, returns, or destroys msg
+```
+
+#### Intra process publishing
+
+To publishing a message in intra-process, a message object is first allocated (or loaned) and then populated at the user level (e.g., in a node).
+The message is then published through one of the `rclcpp::Publisher::publish()` methods.
+
+For normal intra-process publishing, this then passes that on to `rclcpp::IntraProcessManager`, which itself passes it to `rclcpp::TypedIntraProcessBuffer`, which passes it on to the `rclcpp::RingBufferImplementation`. In `rclcpp::RingBufferImplementation`, published data is stored by enqueue.
+
+```mermaid
+sequenceDiagram
+    participant node
+    participant Publisher
+    participant IntraProcessManager
+    participant SubscriptionIntraProcess
+    participant TypedIntraProcessBuffer
+    participant RingBufferImplementation
+    participant tracetools
+
+    Note over node: spin
+    Note over node: creates a msg
+    node ->> Publisher: publish(message)
+    Publisher -->> tracetools : TP(rclcpp_intra_publish, publisher_handle, message*)
+    Publisher ->> IntraProcessManager: do_intra_process_publish()/do_intra_process_publish_and_return_shared()
+    IntraProcessManager ->> SubscriptionIntraProcess: provide_intra_process_data()
+    SubscriptionIntraProcess ->> TypedIntraProcessBuffer: add_shared(message*)/add_unique(mesasge*)
+    TypedIntraProcessBuffer ->> RingBufferImplementation: enqueue()
+    RingBufferImplementation -->> tracetools : TP(ring_buffer_enqueue, buffer*, index, size, overwritten)
 ```
 
 #### Service creation
