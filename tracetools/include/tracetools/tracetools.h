@@ -496,13 +496,6 @@ DECLARE_TRACEPOINT(
   const uint64_t message_timestamp)
 
 DECLARE_TRACEPOINT(
-  dispatch_subscription_callback,
-  const void * message,
-  const void * callback,
-  const uint64_t source_timestamp,
-  const uint64_t message_timestamp)
-
-DECLARE_TRACEPOINT(
   dispatch_intra_process_subscription_callback,
   const void * message,
   const void * callback,

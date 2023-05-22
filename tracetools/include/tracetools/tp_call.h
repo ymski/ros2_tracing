@@ -442,23 +442,6 @@ TRACEPOINT_EVENT(
 
 TRACEPOINT_EVENT(
   TRACEPOINT_PROVIDER,
-  dispatch_subscription_callback,
-  TP_ARGS(
-    const void *, message_arg,
-    const void *, callback_arg,
-    const uint64_t, source_timestamp_arg,
-    const uint64_t, message_timestamp_arg
-  ),
-  TP_FIELDS(
-    ctf_integer_hex(const void *, message, message_arg)
-    ctf_integer_hex(const void *, callback, callback_arg)
-    ctf_integer(const uint64_t, source_stamp, source_timestamp_arg)
-    ctf_integer(const uint64_t, message_timestamp, message_timestamp_arg)
-  )
-)
-
-TRACEPOINT_EVENT(
-  TRACEPOINT_PROVIDER,
   dispatch_intra_process_subscription_callback,
   TP_ARGS(
     const void *, message_arg,
