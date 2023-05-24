@@ -379,8 +379,7 @@ void TRACEPOINT(
   rclcpp_intra_publish,
   const void * publisher_handle,
   const void * message,
-  const uint64_t message_timestamp
-  )
+  const uint64_t message_timestamp)
 {
   CONDITIONAL_TP(
     rclcpp_intra_publish,
